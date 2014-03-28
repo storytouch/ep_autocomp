@@ -1,0 +1,11 @@
+{
+  "keywords": [
+    "var",
+    "function",
+    "for"
+  ],
+  "regexToFind": [
+    "(#\\w+)+",
+    "(#\\w+)"
+  ]
+}

@@ -1,0 +1,14 @@
+//The config file must be plain JSON, so no comments there – but here
+
+{
+  "keywords": [ //in the keywords array are any strings you want to have predefined in your autosuggest list, like keywords from programming languages or common phrases or the like
+    "var",
+    "function",
+    "for"
+  ],
+  "regexToFind": [
+		//here you can define regula expressions. They may not be in the usual literal /regex/flag style. The part you put in here is the plan regex without the slashes and the flags. The flag is always assumed to be global (/regex/g). So you compared to a literal-Regex you use the part between the slashes.
+    "(#\\w+)+",
+    "(#\\w+)"
+  ]
+}
