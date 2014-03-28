@@ -15,13 +15,15 @@ var $autocomp, $list; //fails if they are not defined here, though they are crea
 //todo: change to var autocomp = autocomp ||  {} with following autocomp.… =
 //so it would be possible to augment the autocomp object from other hooks without polluting global space too much.
 
+
+
 var autocomp = {
 	//the following shoould probably be: isActive(true) for enabling, isActive (false) for disabling, isActive() for getting the current state. (closure!)
 	//isEnabled: true,//this could be getter/Setter too
 	//isShown: false,
 	config:{
 		//move this ot external JSON. Save Regexes as Strings, parse them when needed.
-		hardcodedSuggestions:["a", "ab", "abc", "abcd", "b", "bc", "bcd", "bcde"], //NOTE: insert your static suggestions here, e.g. a list of keywords. Must be a flat array with string values.
+		hardcodedSuggestions:["a", "ab", "abc", "abcd", "b", "bc", "bcd", "bcde"], //NOTE: insert your static suggestions here, e.g. a list of keywords. Must be a flat array with string values. //TODO: rename to "keywords"
 		regexToFind:[/(#\w+)+/g, /(#\w+)/g]//array with regexes. The matches of this regex(es) will be assed to the suggestions array.
 		//EXAMPLE REGEXES:
 		// /(#\w+)+/g  chains of hashtags. if you got "abc #first#second" you'll get "#first#second"
@@ -411,7 +413,7 @@ var autocomp = {
 			return false;
 		}
 	},
-	getPossibleSuggestions:function(context){
+	getPossibleSuggestions:underscore.throttle(function(context){ //throttle: returns a function which executes the function (1st param) at most every (2nd param) milliseconds. If the function is called, and it is not yet "updating-time", the return value of the last execution is returned.
 		var hardcodedSuggestions =  autocomp.config.hardcodedSuggestions;
 		var regexToFind=autocomp.config.regexToFind;
 		
@@ -433,7 +435,16 @@ var autocomp = {
 		return underscore.uniq(//uniq: prevent dublicate entrys
 			hardcodedSuggestions.concat(dynamicSuggestions).sort(), //combine dynamic and static array, the resulting array is than sorted
 		true);//true, since input array is already sorted
-	}
-	
+	}, 1000),
 };
 
+
+//populate the config…
+$.getJSON("config/config.json", function(json){
+	autocomp.keywords=data.keywords;
+	autocomp.regexToFind = [];
+	$.each(data.regexToFind, function(key,value){
+		if(typeof value !== "string"){return false} // break out of the current each-iteration
+		autocomp.regexToFind.push(new RegExp(value,"g")); //this assumes they all sould be /g
+	})
+})
