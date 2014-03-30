@@ -11,7 +11,7 @@ exports.eejsBlock_styles = function (hook_name, args, cb) {
 };*/
 
 exports.eejsBlock_dd_view = function (hook_name, args, cb) {
-  args.content = args.content + "<li><a href='#' onClick='$(\"#options-autocomp\").click();'>Table Of Contents WhereAmI-1 </a></li>"; /*what do I need this for, how is it called?*/
+  args.content = args.content + "<li><a href='#' onClick='$(\"#options-autocomp\").click();'>EnableAutocomp</a></li>"; /*what do I need this for, how is it called?*/
   return cb();
 }
 

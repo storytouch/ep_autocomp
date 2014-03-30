@@ -4,8 +4,6 @@
     "function",
     "for"
   ],
-  "regexToFind": [
-    "(#\\w+)+",
-    "(#\\w+)"
-  ]
+  "regexToFind": ["(#\\w+)+", "(#\\w+)"]
 }
+

@@ -21,17 +21,16 @@ var autocomp = {
 	//the following shoould probably be: isActive(true) for enabling, isActive (false) for disabling, isActive() for getting the current state. (closure!)
 	//isEnabled: true,//this could be getter/Setter too
 	//isShown: false,
-	config:require(ep_autocomp/static/config/config),
-	/*config:{
+	 config:{
 		//move this ot external JSON. Save Regexes as Strings, parse them when needed.
-		hardcodedSuggestions:["a", "ab", "abc", "abcd", "b", "bc", "bcd", "bcde"], //NOTE: insert your static suggestions here, e.g. a list of keywords. Must be a flat array with string values. //TODO: rename to "keywords"
+		keywords:["a", "ab", "abc", "abcd", "b", "bc", "bcd", "bcde"], //NOTE: insert your static suggestions here, e.g. a list of keywords. Must be a flat array with string values. //TODO: rename to "keywords"
 		regexToFind:[/(#\w+)+/g, /(#\w+)/g]//array with regexes. The matches of this regex(es) will be assed to the suggestions array.
 		//EXAMPLE REGEXES:
 		// /(#\w+)+/g  chains of hashtags. if you got "abc #first#second" you'll get "#first#second"
 		// /(#\w+)/g  get words with hash. if you got "abc #first#second" you'll get "#first","#second"
 		//natural word matches:  /(\w+)+/g
 		//words in code (all non-whitespace, so strings with $, % etc, included) /(\S+)/g
-	},*/
+	},
 	tempDisabled:false, //Dirty Hack. See autocomp.tempDisabledHelper and autocomp.aceKeyEvent
 	tempDisabledHelper:function(){
 		//this is a dirty hack: If a key is pressed, aceKeyEvent is sometimes fired twice, 
@@ -414,8 +413,8 @@ var autocomp = {
 			return false;
 		}
 	},
-	getPossibleSuggestions:underscore.throttle(function(context){ //throttle: returns a function which executes the function (1st param) at most every (2nd param) milliseconds. If the function is called, and it is not yet "updating-time", the return value of the last execution is returned.
-		var hardcodedSuggestions =  autocomp.config.hardcodedSuggestions;
+	getPossibleSuggestions:function(context){ //throttle: returns a function which executes the function (1st param) at most every (2nd param) milliseconds. If the function is called, and it is not yet "updating-time", the return value of the last execution is returned.
+		var keywords =  autocomp.config.keywords;
 		var regexToFind=autocomp.config.regexToFind;
 		
 		var dynamicSuggestions=[];
@@ -434,18 +433,17 @@ var autocomp = {
 		
 		}//end if(context && context.rep.lines.allLines){
 		return underscore.uniq(//uniq: prevent dublicate entrys
-			hardcodedSuggestions.concat(dynamicSuggestions).sort(), //combine dynamic and static array, the resulting array is than sorted
+			keywords.concat(dynamicSuggestions).sort(), //combine dynamic and static array, the resulting array is than sorted
 		true);//true, since input array is already sorted
-	}, 1000),
+	}
 };
 
-
 //populate the config…
-$.getJSON("config/config.json", function(json){
-	autocomp.keywords=data.keywords;
-	autocomp.regexToFind = [];
-	$.each(data.regexToFind, function(key,value){
+$.getJSON("../static/plugins/ep_autocomp/static/js/config/config.json", function(json){
+	autocomp.config.keywords=json.keywords;
+	autocomp.config.regexToFind = [];
+	$.each(json.regexToFind, function(key,value){
 		if(typeof value !== "string"){return false} // break out of the current each-iteration
-		autocomp.regexToFind.push(new RegExp(value,"g")); //this assumes they all sould be /g
+		autocomp.config.regexToFind.push(new RegExp(value,"g")); //this assumes they all sould be /g
 	})
 })
