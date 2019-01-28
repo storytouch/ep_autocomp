@@ -1,4 +1,4 @@
-describe('ep_autocomp - position of autocomplete suggestions', function() {
+describe.skip('ep_autocomp - position of autocomplete suggestions', function() {
   var utils, targetLineNumber, baseline;
 
   var getTargetLine = function() {

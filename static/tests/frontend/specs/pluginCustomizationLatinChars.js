@@ -1,4 +1,4 @@
-describe("ep_autocomp - plugin customization - when flag to show suggestions for Latin characters is turned on", function(){
+describe.skip("ep_autocomp - plugin customization - when flag to show suggestions for Latin characters is turned on", function(){
   var utils;
 
   before(function () {

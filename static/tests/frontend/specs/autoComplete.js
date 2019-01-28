@@ -1,4 +1,4 @@
-describe("ep_autocomp - show autocomplete suggestions", function(){
+describe.skip("ep_autocomp - show autocomplete suggestions", function(){
   var utils;
 
   // use a single pad for all the tests (so they run faster)

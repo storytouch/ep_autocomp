@@ -1,4 +1,4 @@
-describe("ep_autocomp - target line", function(){
+describe.skip("ep_autocomp - target line", function(){
   var utils;
 
   before(function () {

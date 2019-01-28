@@ -1,4 +1,4 @@
-describe("ep_autocomp - plugin customization", function(){
+describe.skip("ep_autocomp - plugin customization", function(){
   var utils;
 
   before(function () {

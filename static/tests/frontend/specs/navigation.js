@@ -1,4 +1,4 @@
-describe("ep_autocomp - commands auto complete", function(){
+describe.skip("ep_autocomp - commands auto complete", function(){
   var utils;
 
   before(function () {
